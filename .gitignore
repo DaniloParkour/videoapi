@@ -1,6 +1,97 @@
 # Compiled class file
 *.class
 
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+.classpath
+.settings/
+.loadpath
+
+
+# Directories #
+build/
+bin/
+target/
+libs/
+tmp/
+node_modules/
+jaxws/jaxws-client/src/main/
+jaxws/jaxws-endpoint/src/main/webapp/WEB-INF/wsdl/
+.m2/
+
+$ Log Files #
+*.log
+
+# OS Files #
+.DS_Store
+
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.db
+rebel.xml
+
+######################
+# Maven
+######################
+ *.versionsBackup
+
+
+######################
+# Environment File
+######################
+.env
+
+######################
+# OSX
+######################
+
+.DS_Store
+.svn
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
 # Log file
 *.log
 
