@@ -67,26 +67,46 @@ public class VideoService {
 		return response;
 	}
 	
-	public ResponseModel<VideoDTO> atualizar(UpdateVideoDTO video) {
+	public ResponseModel<VideoDTO> update(UpdateVideoDTO video) {
 		ResponseModel<VideoDTO> response;
+		Optional<Video> videoBd = repository.findById(video.getId());
 		
-		try {
-			Video updateVideo = repository.save(mapper.toObject(video, Video.class));
-			response = new ResponseModel<>("SUCCESS");
-			response.setData(mapper.toObject(updateVideo, VideoDTO.class));
-		} catch (Exception e) {
-			response = new ResponseModel<>("Error");
-			response.setMessage("Can't update video");
+		if(videoBd.isPresent()) {
+			try {
+				videoBd.get().setDescricao(video.getDescricao());
+				videoBd.get().setTitulo(video.getTitulo());
+				videoBd.get().setUrl(video.getUrl());
+				Video updateVideo = repository.save(videoBd.get());
+				response = new ResponseModel<>("SUCCESS");
+				response.setData(mapper.toObject(updateVideo, VideoDTO.class));
+			} catch (Exception e) {
+				response = new ResponseModel<>("Error");
+				response.setMessage("Can't update video");
+			}
+			return response;
 		}
 		
-		return response;
+		throw new VideoNotFoundException("ID informado não pertence a um registro no banco de dados");
+		
 	}
 
 	public ResponseModel<Void> delete(Long id) {
-		ResponseModel<Void> response = new ResponseModel<>("SUCESSO");
-		repository.deleteById(id);
 		
-		return response;
+		Optional<Video> videoBd = repository.findById(id);
+		
+		if(videoBd.isPresent()) {
+			ResponseModel<Void> response;
+			try {
+				repository.deleteById(id);
+				response = new ResponseModel<>("SUCCESS");
+			} catch (Exception e) {
+				response = new ResponseModel<>("Error");
+				response.setMessage("Can't delete video");
+			}
+			
+			return response;
+		}
+		
+		throw new VideoNotFoundException("ID informado não pertence a um registro no banco de dados");
 	}
-
 }
