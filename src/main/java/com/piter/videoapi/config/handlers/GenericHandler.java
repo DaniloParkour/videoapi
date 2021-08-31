@@ -1,3 +1,5 @@
+package com.piter.videoapi.config.handlers;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -16,7 +18,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import br.gov.pi.sefaz.siatweb.cadpessoa.utils.mapper.requests.ResponseModel;
+import com.piter.videoapi.mapper.requests.ResponseModel;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
