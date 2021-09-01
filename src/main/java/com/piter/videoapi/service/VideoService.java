@@ -25,7 +25,7 @@ public class VideoService {
 	private GenericMapper mapper;
 	
 	public ResponseModel<VideoDTO> getVideo(Long id) {
-		ResponseModel<VideoDTO> response = new ResponseModel<>("SUCESSO");
+		ResponseModel<VideoDTO> response = new ResponseModel<>("SUCCESS");
 		
 		Optional<Video> video = repository.findById(id);
 		if(video.isPresent()) {
@@ -42,7 +42,7 @@ public class VideoService {
 		
 		try {
 			Video newVideo = repository.save(mapper.toObject(video, Video.class));
-			response = new ResponseModel<>("SUCESSO");
+			response = new ResponseModel<>("SUCCESS");
 			response.setData(mapper.toObject(newVideo, VideoDTO.class));	
 		} catch (IllegalArgumentException e) {
 			response = new ResponseModel<>("Error");
