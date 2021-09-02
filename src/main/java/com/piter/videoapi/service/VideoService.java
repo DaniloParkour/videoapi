@@ -72,6 +72,21 @@ public class VideoService {
 		return response;
 	}
 	
+	public ResponseModel<VideoDTO> findByTitulo(String value) {
+		ResponseModel<VideoDTO> response;
+		
+		try {
+			List<Video> videos = repository.findByTituloLike(value);
+			response = new ResponseModel<>("SUCCESS");
+			response.setList(mapper.toList(videos, VideoDTO.class));
+		} catch (Exception e) {
+			response = new ResponseModel<>("Error");
+			response.setMessage("Can't list videos");
+		}
+		
+		return response;
+	}
+	
 	public ResponseModel<VideoDTO> update(UpdateVideoDTO video) {
 		ResponseModel<VideoDTO> response;
 		Optional<Video> videoBd = repository.findById(video.getId());

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.piter.videoapi.dto.SaveVideoDTO;
@@ -51,6 +52,13 @@ public class VideosController {
 	@DeleteMapping("/{id}")
 	public ResponseModel<Void> deletar(@PathVariable("id") Long id) {
 		return service.delete(id);
+	}
+	
+	@GetMapping("/")
+	public ResponseModel<VideoDTO> findByTitulo(@RequestParam(name = "search") String search) {
+		search = search.startsWith("%") ? search : "%" + search;
+		search = search.endsWith("%") ? search : search + "%";
+		return service.findByTitulo(search);
 	}
 
 }
