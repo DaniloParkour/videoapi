@@ -12,7 +12,9 @@ import com.piter.videoapi.dto.VideoDTO;
 import com.piter.videoapi.exceptions.VideoNotFoundException;
 import com.piter.videoapi.mapper.GenericMapper;
 import com.piter.videoapi.mapper.requests.ResponseModel;
+import com.piter.videoapi.model.Categoria;
 import com.piter.videoapi.model.Video;
+import com.piter.videoapi.repository.CategoriaRepository;
 import com.piter.videoapi.repository.VideoRepository;
 
 @Service
@@ -20,6 +22,9 @@ public class VideoService {
 	
 	@Autowired
 	private VideoRepository repository;
+	
+	@Autowired
+	private CategoriaRepository categoria_repository;
 	
 	@Autowired
 	private GenericMapper mapper;
@@ -73,9 +78,13 @@ public class VideoService {
 		
 		if(videoBd.isPresent()) {
 			try {
-				videoBd.get().setDescricao(video.getDescricao());
-				videoBd.get().setTitulo(video.getTitulo());
-				videoBd.get().setUrl(video.getUrl());
+				if(video.getDescricao() != null) videoBd.get().setDescricao(video.getDescricao());
+				if(video.getTitulo() != null) videoBd.get().setTitulo(video.getTitulo());
+				if(video.getUrl() != null) videoBd.get().setUrl(video.getUrl());
+				if(video.getCategoriaId() != null) {
+					Categoria categoria = categoria_repository.getById(video.getCategoriaId());
+					videoBd.get().setCategoria(categoria);
+				}
 				Video updateVideo = repository.save(videoBd.get());
 				response = new ResponseModel<>("SUCCESS");
 				response.setData(mapper.toObject(updateVideo, VideoDTO.class));
