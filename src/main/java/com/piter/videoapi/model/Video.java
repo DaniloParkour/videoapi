@@ -24,6 +24,7 @@ public class Video {
 	private Long id;
 	
 	@ManyToOne
+	@JoinColumn(name = "categoriaID")
 	private Categoria categoria;
 	
 	private String descricao;

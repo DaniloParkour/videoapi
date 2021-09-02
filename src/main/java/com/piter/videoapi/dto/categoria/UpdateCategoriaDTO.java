@@ -15,8 +15,6 @@ public class UpdateCategoriaDTO {
 	@NotNull
 	private Long id;
 	
-	private Long categoria_id;
-	
 	private String titulo;
 	
 	private String cor;

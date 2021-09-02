@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.piter.videoapi.dto.VideoDTO;
 import com.piter.videoapi.dto.categoria.CategoriaDTO;
 import com.piter.videoapi.dto.categoria.SaveCategoriaDTO;
 import com.piter.videoapi.dto.categoria.UpdateCategoriaDTO;
@@ -51,5 +52,11 @@ public class CategoriasController {
 	@DeleteMapping("/{id}")
 	public ResponseModel<Void> delete(@PathVariable("id") Long id) {
 		return service.delete(id);
-	}	
+	}
+	
+	@GetMapping("/{id}/videos")
+	public ResponseModel<VideoDTO> listByCategory(@PathVariable("id") Long id) {
+		return service.listByCategory(id);
+	}
+	
 }

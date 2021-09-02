@@ -11,6 +11,8 @@ public class VideoDTO {
 	
 	private String descricao;
 	
+	private Long categoriaId;
+	
 	private String titulo;
 	
 	private String url;

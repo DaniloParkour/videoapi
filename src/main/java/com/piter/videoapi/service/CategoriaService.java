@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.piter.videoapi.dto.VideoDTO;
 import com.piter.videoapi.dto.categoria.CategoriaDTO;
 import com.piter.videoapi.dto.categoria.SaveCategoriaDTO;
 import com.piter.videoapi.dto.categoria.UpdateCategoriaDTO;
@@ -13,13 +14,18 @@ import com.piter.videoapi.exceptions.CategoriaNotFoundException;
 import com.piter.videoapi.mapper.GenericMapper;
 import com.piter.videoapi.mapper.requests.ResponseModel;
 import com.piter.videoapi.model.Categoria;
+import com.piter.videoapi.model.Video;
 import com.piter.videoapi.repository.CategoriaRepository;
+import com.piter.videoapi.repository.VideoRepository;
 
 @Service
 public class CategoriaService {
 	
 	@Autowired
 	private CategoriaRepository repository;
+	
+	@Autowired
+	private VideoRepository video_repository;
 	
 	@Autowired
 	private GenericMapper mapper;
@@ -38,6 +44,19 @@ public class CategoriaService {
 		}
 		
 		return response;
+	}
+	
+	public ResponseModel<VideoDTO> listByCategory(Long id) {
+		ResponseModel<VideoDTO> response = new ResponseModel<>("SUCCESS");
+		
+		Optional<Categoria> categoria = repository.findById(id);
+		
+		if(categoria.isPresent()) {
+			List<Video> videos = video_repository.findByCategoriaId(id);
+			response.setList(mapper.toList(videos, VideoDTO.class));
+			return response;
+		}		
+		throw new CategoriaNotFoundException("ID informado não pertence a um registro no banco de dados");
 	}
 	
 	public ResponseModel<CategoriaDTO> listAll() {
