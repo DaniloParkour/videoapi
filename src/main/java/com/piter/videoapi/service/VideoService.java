@@ -74,13 +74,13 @@ public class VideoService {
 		return response;
 	}
 	
-	public ResponseModel<VideoDTO> findByTitulo(String value) {
+	public ResponseModel<VideoDTO> findByTitulo(String value, Pageable pagination) {
 		ResponseModel<VideoDTO> response;
 		
 		try {
-			List<Video> videos = repository.findByTituloLike(value);
+			Page<Video> videos = repository.findByTituloLike(value, pagination);
 			response = new ResponseModel<>("SUCCESS");
-			response.setList(mapper.toList(videos, VideoDTO.class));
+			response.setList(mapper.toList(videos.getContent(), VideoDTO.class));
 		} catch (Exception e) {
 			response = new ResponseModel<>("Error");
 			response.setMessage("Can't list videos");

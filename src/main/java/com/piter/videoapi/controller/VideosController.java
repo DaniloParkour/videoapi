@@ -63,10 +63,16 @@ public class VideosController {
 	}
 	
 	@GetMapping("/")
-	public ResponseModel<VideoDTO> findByTitulo(@RequestParam(name = "search") String search) {
+	public ResponseModel<VideoDTO> findByTitulo(
+											@RequestParam(name = "search") String search,
+											@RequestParam int page,
+											@RequestParam(required = false) Integer size
+										) {
+		Pageable pagination = PageRequest.of(page, size != null ? size : 5);
+		
 		search = search.startsWith("%") ? search : "%" + search;
 		search = search.endsWith("%") ? search : search + "%";
-		return service.findByTitulo(search);
+		return service.findByTitulo(search, pagination);
 	}
 
 }
