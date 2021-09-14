@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.piter.videoapi.dto.SaveVideoDTO;
@@ -57,13 +59,13 @@ public class VideoService {
 		return response;
 	}
 	
-	public ResponseModel<VideoDTO> listAll() {
+	public ResponseModel<VideoDTO> listAll(Pageable pagination) {
 		ResponseModel<VideoDTO> response;
 		
 		try {
-			List<Video> videos = repository.findAll();
+			Page<Video> videos = repository.findAll(pagination);
 			response = new ResponseModel<>("SUCCESS");
-			response.setList(mapper.toList(videos, VideoDTO.class));
+			response.setList(mapper.toList(videos.getContent(), VideoDTO.class));
 		} catch (Exception e) {
 			response = new ResponseModel<>("Error");
 			response.setMessage("Can't list videos");
