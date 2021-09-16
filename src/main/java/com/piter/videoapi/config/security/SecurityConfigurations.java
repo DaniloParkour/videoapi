@@ -28,7 +28,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 		.antMatchers(HttpMethod.GET, "/videos").permitAll() // Qual URL quer filtrar e o que fazer
 		.antMatchers(HttpMethod.GET, "/videos/*").permitAll()
-		.anyRequest().authenticated() // QUalquer outra deve estar autenticado
+		// .anyRequest().authenticated() // QUalquer outra deve estar autenticado
 		;
 		super.configure(http);
 	}
