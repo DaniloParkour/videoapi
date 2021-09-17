@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 
 @EnableWebSecurity
 @Configurable // Vamos ter configurações nessa classe como configuração de beans
@@ -28,7 +29,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 		.antMatchers(HttpMethod.GET, "/videos").permitAll() // Qual URL quer filtrar e o que fazer
 		.antMatchers(HttpMethod.GET, "/videos/*").permitAll()
-		// .anyRequest().authenticated() // QUalquer outra deve estar autenticado
+		.antMatchers(HttpMethod.POST, "/auth").permitAll()
+		.and().csrf().disable() // Por usar JWT não precisa dessa proteção a ataques CSRF
+		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		;
 		super.configure(http);
 	}
