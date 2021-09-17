@@ -1,13 +1,17 @@
 package com.piter.videoapi.config.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity
 @Configurable // Vamos ter configurações nessa classe como configuração de beans
@@ -17,10 +21,19 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	
 	// Temos 3 métodos "configure" para sobrescrever. Devemos definir os 3
 	
+	@Autowired
+	private AutenticacaoService autenticacaoService;
+	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		// Configurações de AUTENTICAÇÃO
-		super.configure(auth);
+		
+		//Falar ao SPRING qual a classe que tem a lógica de autenticação
+		auth.userDetailsService(autenticacaoService)
+			.passwordEncoder(new BCryptPasswordEncoder()) //MD5 e CHAR2 não são mais seguros hoje
+		;
+		
+		// super.configure(auth);
 	}
 	
 	@Override
@@ -40,6 +53,14 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 		// Confirugações de RECURSOS ESTÁTICOS solicitações de imagens, css, js, ...
 		super.configure(web);
+	}
+	
+	// A classe que estamos herdando já tem um método que sabe criar o AuthenticationManager
+	@Override  // Vamos implementar esse método
+	@Bean  // Para ensinar ao SPRING que o método retorna um Bean (para aprender a Injetar a dependência)
+	protected AuthenticationManager authenticationManager() throws Exception {
+		// TODO Auto-generated method stub
+		return super.authenticationManager();
 	}
 
 }
