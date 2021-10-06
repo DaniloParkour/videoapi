@@ -7,10 +7,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 												//Para chamad apenas uma vez a cada requisição
 public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
+	
+	// Não conseguimos injetar a dependencia aqui por AUTOWIRED
+	private TokenService tokenService;
+	
+	public AutenticacaoViaTokenFilter(TokenService tokenService) {
+		this.tokenService = tokenService;
+	}
 
 	//Método qu eleva a logica de verificar se o Token é valido
 	@Override
@@ -19,7 +27,9 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
 		
 		String token = recuperarToken(request);
 		
-		System.out.println(token);
+		boolean valido = tokenService.isTokenValido(token);
+		
+		System.out.println(valido);
 		
 		//Informar que pode seguir com a requisição
 		filterChain.doFilter(request, response);

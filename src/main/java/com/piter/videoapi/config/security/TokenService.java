@@ -37,4 +37,15 @@ public class TokenService {
 				;
 	}
 
+	public boolean isTokenValido(String token) {
+		
+		try {
+			// O "parseClaimsJws" retorna um objeto se o token for válido, se não ele joga uma EXCEPTION
+			Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 }
