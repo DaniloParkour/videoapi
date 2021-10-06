@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @Configurable // Vamos ter configurações nessa classe como configuração de beans
@@ -46,8 +47,11 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 		.anyRequest().authenticated()
 		.and().csrf().disable() // Por usar JWT não precisa dessa proteção a ataques CSRF
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		// Adicionamos o nosso filtro antes do filtro que o SpringBoot já tem para a autenticação
+		.and().addFilterBefore(new AutenticacaoViaTokenFilter(), UsernamePasswordAuthenticationFilter.class)
 		;
-		super.configure(http);
+		// Não chamamos mais super.configure e já estamos usando o anyRequest().authenticated
+		//super.configure(http);
 	}
 	
 	@Override
