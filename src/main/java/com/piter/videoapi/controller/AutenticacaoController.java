@@ -33,7 +33,6 @@ public class AutenticacaoController {
 	public ResponseEntity<TokenDTO> autenticar(@RequestBody @Valid LoginDTO loginData) {
 		UsernamePasswordAuthenticationToken dadosLogin = 
 				new UsernamePasswordAuthenticationToken(loginData.getEmail(), loginData.getSenha());
-		
 		try {
 			Authentication authentication = authManager.authenticate(dadosLogin);
 			String token = tokenService.gerarToken(authentication);

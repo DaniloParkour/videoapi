@@ -28,6 +28,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor			// Interface que mostra ao Spring que é uma classe de usuário
 public class Usuario implements UserDetails {
 	
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -37,7 +39,7 @@ public class Usuario implements UserDetails {
 	
 	// @ManyToOne
 	// @JoinColumn(name = "perfil_id")
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER) // Por padrão o ManyToMany é LAZY
 	private List<Perfil> perfis;
 
 	@Override

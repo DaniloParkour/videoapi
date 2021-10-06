@@ -43,6 +43,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 		.antMatchers(HttpMethod.GET, "/videos").permitAll() // Qual URL quer filtrar e o que fazer
 		.antMatchers(HttpMethod.GET, "/videos/*").permitAll()
 		.antMatchers(HttpMethod.POST, "/auth").permitAll()
+		.anyRequest().authenticated()
 		.and().csrf().disable() // Por usar JWT não precisa dessa proteção a ataques CSRF
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		;
