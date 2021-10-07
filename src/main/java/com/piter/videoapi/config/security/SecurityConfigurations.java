@@ -64,7 +64,10 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		// Confirugações de RECURSOS ESTÁTICOS solicitações de imagens, css, js, ...
-		super.configure(web);
+		web.ignoring().antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configurations/**",
+							"/swagger-resources/**");
+		
+		//super.configure(web);
 	}
 	
 	// A classe que estamos herdando já tem um método que sabe criar o AuthenticationManager

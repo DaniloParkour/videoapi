@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
+import com.piter.videoapi.model.Usuario;
+
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -17,15 +19,17 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
-@EnableSwagger2
 @Import(BeanValidatorPluginsConfiguration.class)
 public class SwaggerConfig extends WebMvcConfigurationSupport {
 	
-	@Bean
+	@Bean //Para o SPRING saber que estamos exportando um objeto Docket
 	public Docket api() {
-		return new Docket(DocumentationType.SWAGGER_2).select()
+		return new Docket(DocumentationType.SWAGGER_2)
+				.select()
 				.apis(RequestHandlerSelectors.basePackage("com.piter.videoapi.controller"))
-				.paths(PathSelectors.any()).build()
+				.paths(PathSelectors.any())
+				.build()
+				.ignoredParameterTypes(Usuario.class) //Ignorar tipo Usuario para nao aparecer a senha lá
 				.apiInfo(apiInfo())
 				.tags(new Tag("Videos", "Métodos para gerenciamento dos cadastros dos vídeos"));
 	}
