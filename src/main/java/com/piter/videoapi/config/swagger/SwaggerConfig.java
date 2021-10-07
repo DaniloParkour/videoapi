@@ -1,5 +1,7 @@
 package com.piter.videoapi.config.swagger;
 
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -10,8 +12,10 @@ import com.piter.videoapi.model.Usuario;
 
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
@@ -30,10 +34,21 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 				.paths(PathSelectors.any())
 				.build()
 				.ignoredParameterTypes(Usuario.class) //Ignorar tipo Usuario para nao aparecer a senha lá
+				
+				//PARAMETRO GLOBAL Para Token das Requisições
+				.globalOperationParameters(Arrays.asList(
+					new ParameterBuilder()
+					.name("Authorization")
+					.description("Header para token JWT")
+					.modelRef(new ModelRef("string"))
+					.required(false)
+					.build()
+				))
+				
 				.apiInfo(apiInfo())
 				.tags(new Tag("Videos", "Métodos para gerenciamento dos cadastros dos vídeos"));
 	}
-	
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
