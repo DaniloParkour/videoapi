@@ -8,4 +8,5 @@ An API to manage video registries implemented at Alura Backend Challenge. The AP
 ## Videos
 ![Videos](https://user-images.githubusercontent.com/11950282/137747832-0242347d-4de4-46c8-bda8-415f304bed3c.png)
 
+## Models
 ![models](https://user-images.githubusercontent.com/11950282/137747893-655a896d-25b5-4ddd-a965-7afb99f58585.png)
