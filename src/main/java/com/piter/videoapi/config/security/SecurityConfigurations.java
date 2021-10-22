@@ -13,6 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+
 import com.piter.videoapi.repository.AutenticacaoRepository;
 
 @EnableWebSecurity
@@ -56,6 +58,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		// Adicionamos o nosso filtro antes do filtro que o SpringBoot já tem para a autenticação
 		.and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, autenticacaoRepository), UsernamePasswordAuthenticationFilter.class)
+		// Configurar o CORs para liberar para todos
+		.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
 		;
 		// Não chamamos mais super.configure e já estamos usando o anyRequest().authenticated
 		//super.configure(http);
