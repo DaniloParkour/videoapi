@@ -40,8 +40,8 @@ public class VideosController {
 	
 	@GetMapping()
 	public ResponseModel<VideoDTO> listAll(
-										@RequestParam int page,
-										@RequestParam(required = false) Integer size
+										@RequestParam(required = false, defaultValue = "0") int page,
+										@RequestParam(required = false, defaultValue = "10") Integer size
 									) {
 		Pageable pagination = PageRequest.of(page, size != null ? size : 5);
 		return service.listAll(pagination);
