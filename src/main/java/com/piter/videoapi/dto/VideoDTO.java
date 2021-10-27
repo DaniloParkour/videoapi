@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class VideoDTO {
 	
+	private Long id;
+	
 	private String descricao;
 	
 	private Long categoriaId;
