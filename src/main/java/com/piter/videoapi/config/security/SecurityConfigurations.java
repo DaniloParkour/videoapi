@@ -59,7 +59,18 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 		// Adicionamos o nosso filtro antes do filtro que o SpringBoot já tem para a autenticação
 		.and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, autenticacaoRepository), UsernamePasswordAuthenticationFilter.class)
 		// Configurar o CORs para liberar para todos
-		.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
+		.cors().configurationSource(request -> {
+			CorsConfiguration cr = new CorsConfiguration().applyPermitDefaultValues();
+			cr.addAllowedMethod(HttpMethod.GET);
+			cr.addAllowedMethod(HttpMethod.DELETE);
+			cr.addAllowedMethod(HttpMethod.POST);
+			cr.addAllowedMethod(HttpMethod.OPTIONS);
+			cr.addAllowedMethod(HttpMethod.HEAD);
+			cr.addAllowedMethod(HttpMethod.PATCH);
+			cr.addAllowedMethod(HttpMethod.PUT);
+			cr.addAllowedMethod(HttpMethod.TRACE);
+			return cr;
+		})
 		;
 		// Não chamamos mais super.configure e já estamos usando o anyRequest().authenticated
 		//super.configure(http);
