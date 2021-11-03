@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -36,6 +37,9 @@ public class Usuario implements UserDetails {
 	private String nome;
 	private String email;
 	private String senha;
+	
+	@OneToMany(mappedBy = "usuario")
+	private List<Video> videos;
 	
 	// @ManyToOne
 	// @JoinColumn(name = "perfil_id")

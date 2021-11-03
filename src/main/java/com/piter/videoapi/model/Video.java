@@ -24,6 +24,10 @@ public class Video {
 	private Long id;
 	
 	@ManyToOne
+	@JoinColumn(name = "usuarioID")
+	private Usuario usuario;
+	
+	@ManyToOne
 	@JoinColumn(name = "categoriaID")
 	private Categoria categoria;
 	
